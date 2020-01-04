@@ -14,8 +14,13 @@ def require_ring(min_ring: int):
             else:
                 context.bot.send_message(
                     chat_id=update.effective_chat.id,
+<<<<<<< HEAD
                     text=f"Your security ring ({ring}) is insufficient for {update.effective_message.text.split(' ')[0]}, which requires ring {min_ring} or lower.",
                     reply_to_message_id=update.effective_message.message_id
+=======
+                    text=f"Your security ring, {ring}, is insufficient for {update.effective_message.text.split(' ')[0]}, which requires ring {min_ring} or lower.",
+                    reply_to_message_id=update.effective_message.id
+>>>>>>> d9058d754b0e97c45eedbb7e0ca1298baf777e40
                 )
         return wrapped
     return restricted

@@ -2,11 +2,7 @@
 
 import os
 from FunctionalityCore import FCore
-<<<<<<< HEAD
 from FCores.kerberos import require_ring
-=======
-from kerberos import require_ring
->>>>>>> d9058d754b0e97c45eedbb7e0ca1298baf777e40
 
 class hazmat(FCore):
     """Provide stupidly insecure functionality, including eval and direct terminal commands."""

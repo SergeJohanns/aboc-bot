@@ -1,6 +1,6 @@
 from FunctionalityCore import FCore
 
-class hi(FCore):
+class greet(FCore):
     """Testing core."""
 
     def get_commands(self) -> dict:

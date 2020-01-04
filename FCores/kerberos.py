@@ -1,9 +1,24 @@
 from FunctionalityCore import FCore
 import json
-import traceback
+from functools import wraps
 
 RING_FILE = "Data/UserRings.json"
 DEFAULT_RING = 3
+
+def require_ring(min_ring: int):
+    def restricted(func):
+        @wraps(func)
+        def wrapped(self, update, context, *args, **kwargs):
+            if (ring := self.bot.cores["kerberos"].get_ring(update.effective_user.username)) <= min_ring:
+                func(self, update, context, *args, **kwargs)
+            else:
+                context.bot.send_message(
+                    chat_id=update.effective_chat.id,
+                    text=f"Your security ring ({ring}) is insufficient for {update.effective_message.text.split(' ')[0]}, which requires ring {min_ring} or lower.",
+                    reply_to_message_id=update.effective_message.message_id
+                )
+        return wrapped
+    return restricted
 
 class kerberos(FCore):
     """Provide a security ring system, allowing for distinction between privileged and regular users."""
@@ -14,13 +29,11 @@ class kerberos(FCore):
     def send_ring(self, update, context):
         context.bot.send_message(chat_id=update.effective_chat.id, text=f"Your ring is {self.get_ring(update.effective_user.username)}")
 
+    @require_ring(-1)
     def grant(self, update, context):
-        if self.get_ring(update.effective_user.username) <= -1:
-            target, ring = (args := update.effective_message.text.split())[1], args[2]
-            self.give_ring(target, ring)
-            context.bot.send_message(chat_id=update.effective_chat.id, text=f"Successfully updated {target}'s security ring to {ring}.")
-        else:
-            context.bot.send_message(chat_id=update.effective_chat.id, text="Your security ring is unsufficient to use /grant.")
+        target, ring = (args := update.effective_message.text.split())[1], args[2]
+        self.give_ring(target, ring)
+        context.bot.send_message(chat_id=update.effective_chat.id, text=f"Successfully updated {target}'s security ring to {ring}.")
 
     def get_ring(self, userName: str):
         try:

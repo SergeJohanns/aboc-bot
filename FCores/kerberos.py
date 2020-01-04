@@ -8,9 +8,9 @@ DEFAULT_RING = 3
 def require_ring(min_ring: int):
     def outer(func):
         @wraps(func)
-        def inner(self, update, context, *args, **kwargs):
+        def inner(self, update, context):
             if (ring := self.bot.cores["kerberos"].get_ring(update.effective_user.username)) <= min_ring:
-                func(self, update, context, *args, **kwargs)
+                func(self, update, context)
             else:
                 context.bot.send_message(
                     chat_id=update.effective_chat.id,

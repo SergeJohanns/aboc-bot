@@ -6,9 +6,9 @@ RING_FILE = "Data/UserRings.json"
 DEFAULT_RING = 3
 
 def require_ring(min_ring: int):
-    def restricted(func):
+    def outer(func):
         @wraps(func)
-        def wrapped(self, update, context, *args, **kwargs):
+        def inner(self, update, context, *args, **kwargs):
             if (ring := self.bot.cores["kerberos"].get_ring(update.effective_user.username)) <= min_ring:
                 func(self, update, context, *args, **kwargs)
             else:
@@ -17,8 +17,8 @@ def require_ring(min_ring: int):
                     text=f"Your security ring ({ring}) is insufficient for {update.effective_message.text.split(' ')[0]}, which requires ring {min_ring} or lower.",
                     reply_to_message_id=update.effective_message.message_id
                 )
-        return wrapped
-    return restricted
+        return inner
+    return outer
 
 class kerberos(FCore):
     """Provide a security ring system, allowing for distinction between privileged and regular users."""

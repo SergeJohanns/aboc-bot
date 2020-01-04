@@ -1,5 +1,6 @@
 import importlib
-from telegram.ext import Updater, CommandHandler
+import functools
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 CORE_PACKAGE = "FCores."
 
@@ -12,6 +13,8 @@ class Bot:
         self.commands = dict()
         for core in persCore["fcores"]:
             self.add_core(core)
+        for (mFilter, func) in [(Filters.command, "not_command"), (Filters.text, "message")]:
+            self.updater.dispatcher.add_handler(MessageHandler(mFilter, functools.partial(self.catch_all, func)))
         self.updater.start_polling(clean=True)
 
     def add_core(self, core: str):
@@ -24,6 +27,6 @@ class Bot:
         except Exception as e:
             print(f"Failed to load core '{core}': {e}")
 
-    def catch_all(self, update, context):
+    def catch_all(self, func: str, update, context):
         for core in self.cores.values():
-            core.catch_all(update, context)
+            getattr(core, func)(update, context)

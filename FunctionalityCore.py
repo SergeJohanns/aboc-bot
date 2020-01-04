@@ -8,6 +8,10 @@ class FCore:
         """Return a dictionary of all commands and their corresponding callbacks."""
         return dict()
     
-    def catch_all(self, update, context):
-        """Called if the bot recieves an unrecognised command or a message."""
+    def not_command(self, update, context):
+        """Called if the bot recieves an unrecognised command."""
+        pass
+    
+    def message(self, update, context):
+        """Called if the bot recieves a message."""
         pass

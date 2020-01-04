@@ -18,7 +18,7 @@ class chron(FCore):
                 context.bot.send_message,
                 kwargs={
                     "chat_id":update.effective_chat.id,
-                    "text":"Your counter is up!",
+                    "text":"Your timer is up!",
                     "reply_to_message_id":update.effective_message.message_id
                 }
             ).start()

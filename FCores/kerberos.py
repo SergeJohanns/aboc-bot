@@ -6,6 +6,7 @@ RING_FILE = "Data/UserRings.json"
 DEFAULT_RING = 3
 
 def require_ring(min_ring: int):
+    """Decorator for command methods. When applied, only users with security ring `min_ring` or lower will be able to use the command."""
     def outer(func):
         @wraps(func)
         def inner(self, update, context):

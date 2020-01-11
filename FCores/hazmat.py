@@ -16,7 +16,8 @@ class hazmat(FCore):
     def eval_message(self, update, context):
         context.bot.send_message(chat_id=update.effective_chat.id, text=str(
             eval(update.effective_message.text.split(" ", 1)[1])
-        ))
+        ),
+        reply_to_message_id=update.effective_message.message_id)
     
     @require_ring(-2)
     def os_command(self, update, context):

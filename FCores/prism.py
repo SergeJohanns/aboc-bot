@@ -14,9 +14,9 @@ def log(func):
     """Decorator for command functions. When applied, any user that uses the command, as well as any chat the command is used in, will be logged."""
     @wraps(func)
     def inner(self, update, context):
-        self.cores["prism"].log_user(update.effective_user)
+        self.bot.cores["prism"].log_user(update.effective_user)
         if update.effective_user.id != update.effective_chat.id: # If the chat is not a one-to-one chat with the user.
-            self.cores["prism"].log_chat(update.effective_chat)
+            self.bot.cores["prism"].log_chat(update.effective_chat)
         func(self, update, context)
     return inner
 

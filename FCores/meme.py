@@ -1,5 +1,6 @@
-import random
 import os
+import time
+import random
 from FunctionalityCore import FCore
 
 STORM_COUNT = 6
@@ -17,6 +18,7 @@ class meme(FCore):
     def storm(self, update, context):
         for _ in range(STORM_COUNT):
             self.meme(update, context)
+            time.sleep(1)
     
     def rand_meme(self):
         return MEME_FOLDER + random.choice(os.listdir(MEME_FOLDER))

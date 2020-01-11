@@ -37,7 +37,7 @@ class kerberos(FCore):
             self.give_ring(target, ring)
             context.bot.send_message(chat_id=update.effective_chat.id, text=f"Successfully updated {target}'s security ring to {ring}.")
         else:
-            context.bot.send_message(chat_id=update.effective_chat.id, text=f"User {target} is not recognised, please identify with /start.")
+            context.bot.send_message(chat_id=update.effective_chat.id, text=f"User {target} is not recognised, please say hello.")
 
     def get_ring(self, userName: str) -> int:
         try:

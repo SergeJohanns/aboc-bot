@@ -29,6 +29,13 @@ class prism(FCore):
             creds = json.loads(credFile.read())
         self.db = mysql.connector.connect(host=creds["host"], user=creds["user"], database=creds["database"], passwd=creds["passwd"])
         self.cursor = self.db.cursor()
+    
+    def get_commands(self) -> dict:
+        return {"hello":self.identify}
+    
+    @log
+    def identify(self, update, context):
+        context.bot.send_message(chat_id=update.effective_chat.id, text=f"Hello there {update.effective_user.first_name}, I'm a bot.")
 
     def log_user(self, user):
         attributes = ["id", "username", "first_name", "last_name"]
@@ -49,7 +56,7 @@ class prism(FCore):
     
     def by_username(self, username: str) -> tuple:
         """Return the row corresponding to the username, or None if the username is not registered."""
-        self.cursor.execute(f"SELECT * FROM {USERS} WHERE {PREFIX}username = {username};")
+        self.cursor.execute(f"SELECT * FROM {USERS} WHERE {PREFIX}username = \"{username}\";")
         return self.cursor.fetchone()
     
     def by_chatid(self, id: int) -> tuple:
@@ -59,5 +66,5 @@ class prism(FCore):
     
     def by_chat_title(self, title: str) -> tuple:
         """Return the row corresponding to the chat title, or None if the chat title is not registered."""
-        self.cursor.execute(f"SELECT * FROM {CHATS} WHERE {PREFIX}title = {title};")
+        self.cursor.execute(f"SELECT * FROM {CHATS} WHERE {PREFIX}title = \"{title}\";")
         return self.cursor.fetchone()

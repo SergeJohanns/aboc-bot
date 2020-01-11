@@ -1,6 +1,6 @@
-from FunctionalityCore import FCore
 import json
 from functools import wraps
+from FunctionalityCore import FCore
 
 RING_FILE = "Data/UserRings.json"
 DEFAULT_RING = 3
@@ -33,8 +33,11 @@ class kerberos(FCore):
     @require_ring(-1)
     def grant(self, update, context):
         target, ring = update.effective_message.text.split()[1:3]
-        self.give_ring(target, ring)
-        context.bot.send_message(chat_id=update.effective_chat.id, text=f"Successfully updated {target}'s security ring to {ring}.")
+        if not "prism" in self.bot.cores or self.bot.cores["prism"].by_username(target):
+            self.give_ring(target, ring)
+            context.bot.send_message(chat_id=update.effective_chat.id, text=f"Successfully updated {target}'s security ring to {ring}.")
+        else:
+            context.bot.send_message(chat_id=update.effective_chat.id, text=f"User {target} is not recognised, please identify with /start.")
 
     def get_ring(self, userName: str) -> int:
         try:

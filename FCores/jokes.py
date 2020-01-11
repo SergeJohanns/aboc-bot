@@ -17,12 +17,16 @@ class jokes(FCore):
     
     def bee(self, update, context):
         DELAY = 1 if update.effective_chat.type == "private" else 3
-        with open("Data/bee.txt", 'r') as bee:
-            sentences = bee.read().split(". ")
+        def blocks(sentences: list):
+            out = []
             i, j = 0, 0
             while j < len(sentences):
-                while j < len(sentences) and len(message := ". ".join(sentences[i:j]) + ".") < 2048:
+                while j < len(sentences) and len(". ".join(sentences[i:j]) + ".") < 2048:
                     j += 1
-                context.bot.send_message(chat_id=update.effective_chat.id, text=message)
+                out.append(". ".join(sentences[i:j-1]) + ".")
                 i = j
+            return out
+        with open("Data/bee.txt", 'r') as bee:
+            for block in blocks(bee.read().split(". ")):
+                context.bot.send_message(chat_id=update.effective_chat.id, text=block)
                 time.sleep(DELAY)

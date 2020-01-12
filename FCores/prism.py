@@ -71,5 +71,6 @@ class prism(FCore):
         return self.cursor.fetchone()
     
     def clean(self, target: str) -> str:
-        """Escape a string to be ready for use in an sql query."""
-        return re.sub(r"([\\\"'_%])", r"\\\1", target)
+        """Escape a string to be ready for use in an sql query.
+        WARNING: not fit for LIKE statements, since wildcards remain unaffected. Add a seperate escape for those."""
+        return re.sub(r"([\\\"'])", r"\\\1", target)

@@ -72,4 +72,4 @@ class prism(FCore):
     
     def clean(self, target: str) -> str:
         """Escape a string to be ready for use in an sql query."""
-        return target if re.match(r"[a-zA-Z0-9_]+", target) else "" # Workaround conforming to the official telegram username standards.
+        return re.sub(r"([\\\"'_%])", r"\\\1", target)

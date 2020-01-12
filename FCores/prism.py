@@ -1,5 +1,6 @@
 # Might not conform to privacy legislation, do not use in production environment before verifying with a legal expert.
 
+import re
 import json
 from functools import wraps
 import mysql.connector
@@ -39,13 +40,13 @@ class prism(FCore):
 
     def log_user(self, user):
         attributes = ["id", "username", "first_name", "last_name"]
-        values = [("\"{}\"" if isinstance(attribute, str) else "{}").format(getattr(user, attribute)) for attribute in attributes]
+        values = [("\"{}\"" if isinstance(attribute, str) else "{}").format(self.clean(str(getattr(user, attribute)))) for attribute in attributes]
         self.cursor.execute(f"REPLACE INTO {USERS} ({', '.join([PREFIX + attr for attr in attributes])}) VALUES ({', '.join(values)});")
         self.db.commit()
     
     def log_chat(self, chat):
         attributes = ["id", "type", "title", "description"]
-        values = [("\"{}\"" if isinstance(attribute, str) else "{}").format(getattr(chat, attribute)) for attribute in attributes]
+        values = [("\"{}\"" if isinstance(attribute, str) else "{}").format(self.clean(str(getattr(chat, attribute)))) for attribute in attributes]
         self.cursor.execute(f"REPLACE INTO {CHATS} ({', '.join([PREFIX + attr for attr in attributes])}) VALUES ({', '.join(values)});")
         self.db.commit()
     
@@ -56,7 +57,7 @@ class prism(FCore):
     
     def by_username(self, username: str) -> tuple:
         """Return the row corresponding to the username, or None if the username is not registered."""
-        self.cursor.execute(f"SELECT * FROM {USERS} WHERE {PREFIX}username = \"{username}\";")
+        self.cursor.execute(f"SELECT * FROM {USERS} WHERE {PREFIX}username = \"{self.clean(username)}\";")
         return self.cursor.fetchone()
     
     def by_chatid(self, id: int) -> tuple:
@@ -66,5 +67,9 @@ class prism(FCore):
     
     def by_chat_title(self, title: str) -> tuple:
         """Return the row corresponding to the chat title, or None if the chat title is not registered."""
-        self.cursor.execute(f"SELECT * FROM {CHATS} WHERE {PREFIX}title = \"{title}\";")
+        self.cursor.execute(f"SELECT * FROM {CHATS} WHERE {PREFIX}title = \"{self.clean(title)}\";")
         return self.cursor.fetchone()
+    
+    def clean(self, target: str) -> str:
+        """Escape a string to be ready for use in an sql query."""
+        return re.sub("([\\\"'%_])", "\\\1", target)

@@ -2,6 +2,7 @@ import os
 import time
 import random
 from FunctionalityCore import FCore
+from FCores.utilcore import asynced
 
 STORM_COUNT = 6
 MEME_FOLDER = "Data/Memes/"
@@ -15,6 +16,7 @@ class meme(FCore):
     def meme(self, update, context):
         context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(self.rand_meme(), 'rb'))
 
+    @asynced()
     def storm(self, update, context):
         for _ in range(STORM_COUNT):
             self.meme(update, context)

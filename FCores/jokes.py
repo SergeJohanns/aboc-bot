@@ -15,6 +15,7 @@ class jokes(FCore):
             time.sleep(1)
         context.bot.send_message(chat_id=update.effective_chat.id, text="jk")
     
+    @asynced()
     def bee(self, update, context):
         DELAY = 1 if update.effective_chat.type == "private" else 3
         def blocks(sentences: list):

@@ -29,7 +29,7 @@ class prism(FCore):
         with open(CREDENTIALS, 'r') as credFile:
             creds = json.loads(credFile.read())
         self.db = mysql.connector.connect(host=creds["host"], user=creds["user"], database=creds["database"], passwd=creds["passwd"])
-        self.cursor = self.db.cursor()
+        self.cursor = self.db.cursor(dictionary=True)
     
     def get_commands(self) -> dict:
         return {"hello":self.identify}
@@ -52,23 +52,29 @@ class prism(FCore):
     
     def by_userid(self, id: int) -> tuple:
         """Return the row corresponding to the user id, or None if the id is not registered."""
-        self.cursor.execute(f"SELECT * FROM {USERS} WHERE {PREFIX}id = {id};")
-        return self.cursor.fetchone()
+        return self.get_one(f"SELECT * FROM {USERS} WHERE {PREFIX}id = {id};")
     
     def by_username(self, username: str) -> tuple:
         """Return the row corresponding to the username, or None if the username is not registered."""
-        self.cursor.execute(f"SELECT * FROM {USERS} WHERE {PREFIX}username = \"{self.clean(username)}\";")
-        return self.cursor.fetchone()
+        return self.get_one(f"SELECT * FROM {USERS} WHERE {PREFIX}username = \"{self.clean(username)}\";")
     
     def by_chatid(self, id: int) -> tuple:
         """Return the row corresponding to the chat id, or None if the id is not registered."""
-        self.cursor.execute(f"SELECT * FROM {CHATS} WHERE {PREFIX}id = {id};")
-        return self.cursor.fetchone()
+        return self.get_one(f"SELECT * FROM {CHATS} WHERE {PREFIX}id = {id};")
     
     def by_chat_title(self, title: str) -> tuple:
         """Return the row corresponding to the chat title, or None if the chat title is not registered."""
-        self.cursor.execute(f"SELECT * FROM {CHATS} WHERE {PREFIX}title = \"{self.clean(title)}\";")
-        return self.cursor.fetchone()
+        return self.get_one(f"SELECT * FROM {CHATS} WHERE {PREFIX}title = \"{self.clean(title)}\";")
+    
+    # Utility
+    def get_one(self, query: str) -> dict:
+        """Return the first result of a query."""
+        self.cursor.execute(query)
+        return self.strip_prefix(self.cursor.fetchone())
+
+    def strip_prefix(self, data: dict) -> dict:
+        """Return a dictionary with every key stripped of its prefix."""
+        return {key[len(PREFIX):]:val for (key, val) in data.items()}
     
     def clean(self, target: str) -> str:
         """Escape a string to be ready for use in an sql query.

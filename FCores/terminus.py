@@ -17,5 +17,6 @@ class terminus(FCore):
         while True:
             try:
                 self.bot.cores[input(PROMPT)].terminal_control()
+                print("Core released terminal control, returning to terminus.")
             except KeyError:
                 print("No such core is loaded.")

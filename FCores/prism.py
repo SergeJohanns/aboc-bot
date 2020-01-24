@@ -74,7 +74,7 @@ class prism(FCore):
 
     def strip_prefix(self, data: dict) -> dict:
         """Return a dictionary with every key stripped of its prefix."""
-        return {key[len(PREFIX):]:val for (key, val) in data.items()}
+        return {key[len(PREFIX):]:val for (key, val) in data.items()} if data else data
     
     def clean(self, target: str) -> str:
         """Escape a string to be ready for use in an sql query.

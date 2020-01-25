@@ -1,12 +1,10 @@
 import time
-import traceback
 import functools
 from FunctionalityCore import FCore
 from FCores.kerberos import require_ring
 
 class democracy(FCore):
     """Allow for arbitrary polling in group chats."""
-    # Very temporary code. Will be expanded and rewritten at some point (thinking of adding private voting).
 
     def __init__(self, bot):
         super().__init__(bot)
@@ -35,16 +33,15 @@ class democracy(FCore):
 
     def vote(self, result:str, update, context):
         if update.effective_chat.id in self.polls:
-            if update.effective_user.id not in self.polls[update.effective_chat.id]["voters"]:
-                self.polls[update.effective_chat.id]["voters"].add(update.effective_user.id)
-                self.polls[update.effective_chat.id][result] += 1
-                context.bot.send_message(chat_id=update.effective_chat.id, text="Registered " + result + " vote.", reply_to_message_id=update.effective_message.message_id)
-            else:
-                context.bot.send_message(chat_id=update.effective_chat.id, text="You have already voted in this poll.", reply_to_message_id=update.effective_message.message_id)
+            chat_id = update.effective_chat.id
         elif (chat := self.bot.cores["prism"].by_chat_title(update.effective_message.text.split(' ', 1)[1]))["id"] in self.polls:
-            if update.effective_user.id not in self.polls[chat["id"]]["voters"]:
-                self.polls[chat["id"]]["voters"].add(update.effective_user.id)
-                self.polls[chat["id"]][result] += 1
-                context.bot.send_message(chat_id=update.effective_chat.id, text="Registered " + result + " vote.", reply_to_message_id=update.effective_message.message_id)
-            else:
-                context.bot.send_message(chat_id=update.effective_chat.id, text="You have already voted in this poll.", reply_to_message_id=update.effective_message.message_id)
+            chat_id = chat["id"]
+        else:
+            context.bot.send_message(chat_id=update.effective_chat.id, text="There is no ongoing poll in this chat.", reply_to_message_id=update.effective_message.message_id)
+            return
+        if update.effective_user.id not in self.polls[chat_id]["voters"]:
+            self.polls[chat_id]["voters"].add(update.effective_user.id)
+            self.polls[chat_id][result] += 1
+            context.bot.send_message(chat_id=update.effective_chat.id, text="Registered " + result + " vote.", reply_to_message_id=update.effective_message.message_id)
+        else:
+            context.bot.send_message(chat_id=update.effective_chat.id, text="You have already voted in this poll.", reply_to_message_id=update.effective_message.message_id)

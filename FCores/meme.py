@@ -2,7 +2,7 @@ import os
 import time
 import random
 from FunctionalityCore import FCore
-from FCores.utilcore import asynctimeout
+from FCores.utilcore import asynced
 from FCores.kerberos import require_ring
 
 STORM_COUNT = 6

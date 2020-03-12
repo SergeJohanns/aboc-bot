@@ -1,6 +1,6 @@
 import time
 from FunctionalityCore import FCore
-from FCores.utilcore import asynctimeout
+from FCores.utilcore import asynced
 from FCores.kerberos import require_ring
 
 class jokes(FCore):

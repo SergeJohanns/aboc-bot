@@ -1,6 +1,6 @@
 # BF Joust interpreter
 import itertools
-from typing import Tuple
+from typing import Dict, List, Tuple, Union
 
 MAX_CYCLES = 100000
 
@@ -14,7 +14,7 @@ def run_fight(warrior_1: str, warrior_2: str) -> Tuple[int, int]:
     return (res_1, res_2)
 
 def duel(tape_length, warrior_1: str, warrior_2: str, polswitch=False) -> int:
-    tape = [128] + [0]*(tape_length - 2) + [128]
+    tape = [128] + [0 for _ in range(tape_length - 2)] + [128]
     state_1 = {"ptr":0, "codeptr":0, "movepol":1, "pol":1}
     state_2 = {"ptr":(tape_length - 1), "codeptr":0, "movepol":-1, "pol":(0 if polswitch else 1)}
     flagged_1 = False
@@ -38,15 +38,17 @@ def duel(tape_length, warrior_1: str, warrior_2: str, polswitch=False) -> int:
             return 1
         elif lost_1:
             return -1
+        flagged_1 = flag_1
+        flagged_2 = flag_2
     return 0
 
-def make_move(tape, move, state):
+def make_move(tape: List[int], move: str, state: Dict[str, int]):
     if move == '+':
         tape[state["ptr"]] += state["pol"]
     elif move == '-':
         tape[state["ptr"]] -= state["pol"]
 
-def step(tape, code, state):
+def step(tape: List[int], code: str, state: Dict[str, int]) -> Union[str, None]:
     jump = False
     jumpdir = 1
     jumpdepth = 0

@@ -2,7 +2,7 @@ import os
 import time
 import random
 from FunctionalityCore import FCore
-from FCores.utilcore import asynced
+from FCores.utilcore import asynctimeout
 from FCores.kerberos import require_ring
 
 STORM_COUNT = 6
@@ -18,7 +18,7 @@ class meme(FCore):
         context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(self.rand_meme(), 'rb'))
 
     @require_ring(2)
-    @asynced()
+    @asynctimeout()
     def storm(self, update, context):
         for _ in range(STORM_COUNT):
             self.meme(update, context)

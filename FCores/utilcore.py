@@ -17,7 +17,7 @@ def safelog(func):
         func(self, update, context)
     return inner
 
-def asynced(timeout: float = 0):
+def asynctimeout(timeout: float = 0):
     """Executes the command in a seperate thread."""
     def outer(func):
         @wraps(func)

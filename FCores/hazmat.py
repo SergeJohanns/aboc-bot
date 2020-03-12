@@ -2,7 +2,7 @@
 
 import os
 from FunctionalityCore import FCore
-from FCores.utilcore import asynced
+from FCores.utilcore import asynctimeout
 from FCores.kerberos import require_ring
 
 class hazmat(FCore):
@@ -12,7 +12,7 @@ class hazmat(FCore):
         return {"eval":self.eval_message, "os":self.os_command}
     
     @require_ring(-1)
-    @asynced(5)
+    @asynctimeout(5)
     def eval_message(self, update, context):
         context.bot.send_message(chat_id=update.effective_chat.id, text=str(
             eval(update.effective_message.text.split(" ", 1)[1])

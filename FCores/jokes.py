@@ -9,7 +9,7 @@ class jokes(FCore):
     def get_commands(self):
         return {"recursion":self.recursion, "bee":self.bee}
     
-    @asynctimeout()
+    @asynced
     def recursion(self, update, context):
         for _ in range(3):
             context.bot.send_message(chat_id=update.effective_chat.id, text="/recursion")
@@ -17,7 +17,7 @@ class jokes(FCore):
         context.bot.send_message(chat_id=update.effective_chat.id, text="jk")
     
     @require_ring(2)
-    @asynctimeout()
+    @asynced
     def bee(self, update, context):
         DELAY = 1 if update.effective_chat.type == "private" else 3
         def blocks(sentences: list):

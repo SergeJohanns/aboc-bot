@@ -1,4 +1,4 @@
-from threading import Timer
+from threading import Timer, Thread
 from functools import wraps
 from multiprocessing import Process
 from FunctionalityCore import FCore
@@ -17,8 +17,16 @@ def safelog(func):
         func(self, update, context)
     return inner
 
+def asynced(func):
+    """Executes the command in a seperate process."""
+    @wraps(func)
+    def inner(self, *args, **kwargs):
+        Thread(target=func, args=args, kwargs=kwargs, daemon=True).start()
+    return inner
+
 def asynctimeout(timeout: float = 0):
-    """Executes the command in a seperate thread."""
+    """Executes the command in a seperate process.
+    Supports timeout and multicore, but processes have more overhead than regular threads."""
     def outer(func):
         @wraps(func)
         def inner(self, update, context):

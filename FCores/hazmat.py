@@ -1,6 +1,7 @@
 # This core is pretty stupid, use at your own risk
 
 import os
+import subprocess
 from FunctionalityCore import FCore
 from FCores.utilcore import asynctimeout
 from FCores.kerberos import require_ring
@@ -21,4 +22,4 @@ class hazmat(FCore):
     
     @require_ring(-2)
     def os_command(self, update, context):
-        os.system(update.effective_message.text.split(" ", 1)[1])
+        context.bot.send_message(chat_id=update.effective_chat.id, text=subprocess.check_output(update.effective_message.text.split(" ", 1)[1], shell=True, stderr=subprocess.STDOUT).decode('utf-8'))#os.system(update.effective_message.text.split(" ", 1)[1])

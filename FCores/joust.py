@@ -1,11 +1,10 @@
 import time
-import functools
 from typing import Dict, Counter
-from collections import Counter as colCounter
+from collections import Counter as colCounter # Collides with typing.Counter
 
 from FunctionalityCore import FCore
 from FCores.utilcore import asynced
-import FCores.dependencies.bfjoust
+import FCores.dependencies.bfjoust as bfjoust
 
 class joust(FCore):
     """Core for running bfjoust tournaments."""
@@ -46,9 +45,11 @@ class joust(FCore):
     
     def all_fights(self, warriors: Dict[int, str]) -> Counter[str]:
         scores = colCounter({player:0 for player in warriors})
-        pairs = warriors.items()
+        pairs = list(warriors.items())
         for ((player_1, warrior_1), (player_2, warrior_2)) in [(pairs[i], pairs[j]) for i in range(len(pairs)) for j in range(i + 1, len(pairs))]:
+            print("Fighting")
             (res1, res2) = bfjoust.run_fight(warrior_1, warrior_2)
+            print("Results:", res1, res2)
             scores[player_1] += res1
             scores[player_2] += res2
         return scores

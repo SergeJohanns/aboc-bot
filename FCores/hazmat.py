@@ -22,4 +22,4 @@ class hazmat(FCore):
     
     @require_ring(-2)
     def os_command(self, update, context):
-        context.bot.send_message(chat_id=update.effective_chat.id, text=subprocess.check_output(update.effective_message.text.split(" ", 1)[1], shell=True, stderr=subprocess.STDOUT).decode('utf-8'))#os.system(update.effective_message.text.split(" ", 1)[1])
+        context.bot.send_message(chat_id=update.effective_chat.id, text=subprocess.check_output(update.effective_message.text.split(" ", 1)[1], shell=True, stderr=subprocess.STDOUT).decode('utf-8'))

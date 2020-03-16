@@ -1,15 +1,13 @@
 # BF Joust interpreter
-import itertools
 from typing import Dict, List, Tuple, Union
 
 MAX_CYCLES = 100000
 
 def run_fight(warrior_1: str, warrior_2: str) -> Tuple[int, int]:
-    result = sum(itertools.chain(*((duel(i, warrior_1, warrior_2, polswitch=False), duel(i, warrior_1, warrior_2, polswitch=True)) for i in range(10, 31))))
+    result = sum(duel(i, warrior_1, warrior_2, polswitch=False) + duel(i, warrior_1, warrior_2, polswitch=True) for i in range(10, 31))
     return (result, -result)
 
 def duel(tape_length, warrior_1: str, warrior_2: str, polswitch=False) -> int:
-    print("Dueling")
     warrior = [warrior_1, warrior_2]
     tape = [128] + [0 for _ in range(tape_length - 2)] + [128]
     state = [{"ptr":0, "codeptr":0, "movepol":1, "pol":1}, {"ptr":(tape_length - 1), "codeptr":0, "movepol":-1, "pol":(0 if polswitch else 1)}]
@@ -38,7 +36,6 @@ def step(tape: List[int], code: str, state: Dict[str, int]) -> Union[str, None]:
     jumpdir = 1
     jumpdepth = 0
     while state["codeptr"] < len(code):
-        print("ptr:", state["codeptr"])
         curr = code[state["codeptr"]]
         state["codeptr"] += 1 # Preemtively increment the pointer, since there is only one case in which it shouldn't be.
         if jump:

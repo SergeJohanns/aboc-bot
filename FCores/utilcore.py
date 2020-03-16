@@ -18,10 +18,9 @@ def safelog(func):
     return inner
 
 def asynced(func):
-    """Executes the command in a seperate process."""
+    """Executes the command in a seperate thread."""
     @wraps(func)
     def inner(*args, **kwargs):
-        print(args, kwargs)
         Thread(target=func, args=args, kwargs=kwargs, daemon=True).start()
     return inner
 

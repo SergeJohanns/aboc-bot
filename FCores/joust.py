@@ -40,7 +40,7 @@ class joust(FCore):
         results = self.all_fights(warriors).most_common(5)
         names = [name for ((_, name), _) in results]
         scores = [f"{name} with {points} points" for ((_, name), points) in results]
-        context.bot.send_message(chat_id=update.effective_chat.id, text=f"The results are in! The winners are {', '.join(names[:-2])}, and {names[-1]}. The scores are as follows: {', '.join(scores)}.")
+        context.bot.send_message(chat_id=update.effective_chat.id, text=f"The results are in! The winners are {', '.join(names[:-1])}, and {names[-1]}. The scores are as follows: {', '.join(scores)}.")
         self.reset()
     
     def all_fights(self, warriors: Dict[int, str]) -> Counter[str]:

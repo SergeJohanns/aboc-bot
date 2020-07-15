@@ -2,7 +2,7 @@ import importlib
 import functools
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
-CORE_PACKAGE = "FCores."
+CORE_PACKAGE = "functionality_cores."
 
 class Bot:
     """Encodes a telegram bot with api connection and personality/functionality cores."""

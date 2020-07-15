@@ -1,7 +1,7 @@
 import random
-import FCores.dependencies.xkcdserve as xkcdserve
-from FCores.utilcore import asynced
-from FunctionalityCore import FCore
+import functionality_cores.dependencies.xkcdserve as xkcdserve
+from functionality_cores.utilcore import asynced
+from functionality_core import FCore
 
 class xkcd(FCore):
     def get_commands(self):

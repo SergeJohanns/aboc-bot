@@ -1,9 +1,9 @@
 import os
 import time
 import random
-from FunctionalityCore import FCore
-from FCores.utilcore import asynced
-from FCores.kerberos import require_ring
+from functionality_core import FCore
+from functionality_cores.utilcore import asynced
+from functionality_cores.kerberos import require_ring
 
 STORM_COUNT = 6
 MEME_FOLDER = "Data/Memes/"

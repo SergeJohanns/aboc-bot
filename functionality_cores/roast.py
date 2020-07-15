@@ -1,5 +1,5 @@
 import random
-from FunctionalityCore import FCore
+from functionality_core import FCore
 
 ROASTS = [
     "I’ll never forget the first time I met {}. But I’ll keep trying.",

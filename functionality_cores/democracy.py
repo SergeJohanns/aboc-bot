@@ -1,7 +1,7 @@
 import time
 import functools
-from FunctionalityCore import FCore
-from FCores.kerberos import require_ring
+from functionality_core import FCore
+from functionality_cores.kerberos import require_ring
 
 class democracy(FCore):
     """Allow for arbitrary polling in group chats."""

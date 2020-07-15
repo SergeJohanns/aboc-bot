@@ -1,4 +1,4 @@
-from FunctionalityCore import FCore
+from functionality_core import FCore
 
 class echo(FCore):
     """Echo a direct message back to the user."""

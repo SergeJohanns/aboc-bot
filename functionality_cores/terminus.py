@@ -1,5 +1,5 @@
 from threading import Timer
-from FunctionalityCore import FCore
+from functionality_core import FCore
 
 PROMPT = "$ "
 

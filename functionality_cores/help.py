@@ -1,5 +1,5 @@
-from FunctionalityCore import FCore
-from FCores.utilcore import safelog
+from functionality_core import FCore
+from functionality_cores.utilcore import safelog
 
 class help(FCore):
     """Give an overview of available commands."""

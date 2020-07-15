@@ -2,9 +2,9 @@
 
 import os
 import subprocess
-from FunctionalityCore import FCore
-from FCores.utilcore import asynctimeout
-from FCores.kerberos import require_ring
+from functionality_core import FCore
+from functionality_cores.utilcore import asynctimeout
+from functionality_cores.kerberos import require_ring
 
 class hazmat(FCore):
     """Provide stupidly insecure functionality, including eval and direct terminal commands."""

@@ -1,4 +1,4 @@
-from FunctionalityCore import FCore
+from functionality_core import FCore
 
 class puppet(FCore):
     """Add controlled messaging capability."""

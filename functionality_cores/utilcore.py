@@ -1,7 +1,7 @@
 from threading import Timer, Thread
 from functools import wraps
 from multiprocessing import Process
-from FunctionalityCore import FCore
+from functionality_core import FCore
 
 def safelog(func):
     """Version of prism.log that has prism as an optional dependency.

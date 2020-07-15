@@ -1,7 +1,7 @@
 #!/usr/bin/env python3.8
 
 import json
-from Bot import Bot
+from bot import Bot
 
 PERS_CORE = "PersonalityCore.json"
 print(f"Loading personality core '{PERS_CORE}'...", end='\r')

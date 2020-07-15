@@ -4,7 +4,7 @@ import re
 import json
 from functools import wraps
 import mysql.connector
-from FunctionalityCore import FCore
+from functionality_core import FCore
 
 CREDENTIALS = "Data/dbcredentials.json"
 USERS = "users"

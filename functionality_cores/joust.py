@@ -2,9 +2,9 @@ import time
 from typing import Dict, Counter
 from collections import Counter as colCounter # Collides with typing.Counter
 
-from FunctionalityCore import FCore
-from FCores.utilcore import asynced
-import FCores.dependencies.bfjoust as bfjoust
+from functionality_core import FCore
+from functionality_cores.utilcore import asynced
+import functionality_cores.dependencies.bfjoust as bfjoust
 
 class joust(FCore):
     """Core for running bfjoust tournaments."""

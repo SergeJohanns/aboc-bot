@@ -1,6 +1,6 @@
 import json
 from functools import wraps
-from FunctionalityCore import FCore
+from functionality_core import FCore
 
 RING_FILE = "Data/UserRings.json"
 DEFAULT_RING = 3

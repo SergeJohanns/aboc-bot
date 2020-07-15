@@ -1,6 +1,6 @@
 import time
 from threading import Timer
-from FunctionalityCore import FCore
+from functionality_core import FCore
 
 class chron(FCore):
     """Provide basic time-based functionality."""
